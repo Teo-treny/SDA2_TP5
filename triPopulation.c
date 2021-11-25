@@ -140,28 +140,20 @@ int main(void)
     nbVilles = chargerVillesPop(fileName, villesPop);
     if (nbVilles == 0) return EXIT_FAILURE;
     printf("effectue.\n%d ville(s) chargee(s) dans la table des villes\n\n", nbVilles);
-    
-    // rechercheRecParCommune_test(villesPop, nbVilles);
-    
-    memset(&mesures, 0, sizeof mesures); // RàZ de la variable mesures
+
     afficherVillesPop_test(villesPop, nbVilles);
-    memset(&mesures, 0, sizeof mesures); // RàZ de la variable mesures
     rechercheSeqParCommune_test(villesPop, nbVilles);
-    // memset(&mesures, 0, sizeof mesures); // RàZ de la variable mesures
-    // MinMaxPopMas_test(villesPop, nbVilles);
-    // memset(&mesures, 0, sizeof mesures); // RàZ de la variable mesures
+    rechercheRecParCommune_test(villesPop, nbVilles);
+    MinMaxPopMas_test(villesPop, nbVilles);
     // triSelectionParPopTotale_test(villesPop, nbVilles);
-    // memset(&mesures, 0, sizeof mesures); // RàZ de la variable mesures
     // triInsertionParNom_test(villesPop, nbVilles);
-    // memset(&mesures, 0, sizeof mesures); // RàZ de la variable mesures
     // triFusionParPopFem_test(villesPop, nbVilles);
-    // memset(&mesures, 0, sizeof mesures); // RàZ de la variable mesures
         
     return 0;
 }
 
 /**
- * @brief Retourne l'indice d'une ville rangée dans la table des villes.\n Complexite :\n\t-Pire cas : n\n\t-Meilleur cas : 1
+ * @brief Retourne l'indice d'une ville rangée dans la table des villes.\nLa recherche est séquentielle.\nComplexite :\n\t-Pire cas : n\n\t-Meilleur cas : 1
  * 
  * @param VP Tableau de ville
  * @param n Taille de VP
@@ -176,19 +168,36 @@ int	rechercheSeqParCommune(const villePop_t VP[], int n, int codeCommune) {
     return (-1);
 }
 
+/**
+ * @brief Retourne l'indice d'une ville rangée dans la table des villes.\nLa recherche est récursive.\nComplexite :\n\t-Pire cas : log2(n)\n\tMeilleur cas : 1
+ * 
+ * @param VP Tableau de ville
+ * @param debut Indice de début du tableau
+ * @param fin Indice de fin du tableau
+ * @param codeCommune Code de la ville à chercher
+ * @return int indice de la ville
+ */
 int	rechercheRecParCommune(const villePop_t VP[], int debut, int fin, int codeCommune) {
+
+    if (debut > fin) return (-1);
+
+    mesures.nbAffectations++;
+    int mid = (debut + fin)/2;
+
+    mesures.nbComparaisons++;
+    if(VP[mid].codeCommune == codeCommune)
+        return mid;
     
-    return (-1);
+    mesures.nbComparaisons++;
+    if (VP[mid].codeCommune > codeCommune)
+        return rechercheRecParCommune(VP, debut, mid, codeCommune);
+    
+    else
+        return rechercheRecParCommune(VP, mid, fin, codeCommune);
 }
 
-
-/* ------------------------------------------------------------------------ */
-void MinMaxPopMas(const villePop_t VP[], int n, int *pMin, int *pMax)
-{
-    int i, iMin = -1, iMax = -1;
-    
-    /*							à compléter									*/
-    
+void MinMaxPopMas(const villePop_t VP[], int n, int *pMin, int *pMax) {
+    int i, iMin = -1, iMax = -1;    
 }
 
 /* ------------------------------------------------------------------------ */

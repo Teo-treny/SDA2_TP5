@@ -54,3 +54,4 @@ dkms.conf
 #perso
 *.e
 *.tar.gz
+*.png
