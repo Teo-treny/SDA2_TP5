@@ -4,7 +4,7 @@ w = -Wall -Wextra
 a = SDA2_TP5_TRENY_Teo.tar.gz
 
 #General
-all : main.e
+all : triPopulation.e
 
 clean :
 	rm -rf *.o *.e *.tar.gz
@@ -22,11 +22,11 @@ doxyfile :
 	doxycss.sh
 
 #exe
-main.e : main.o
-	gcc main.o -o main.e
+triPopulation.e : triPopulation.o
+	gcc triPopulation.o -o triPopulation.e
 
 #debug
 
 #Main
-main.o : main.c
-	$(o) $(w) main.c -o main.o
+triPopulation.o : triPopulation.c
+	$(o) $(w) triPopulation.c -o triPopulation.o
