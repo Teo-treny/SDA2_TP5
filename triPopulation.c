@@ -190,20 +190,54 @@ int	rechercheRecParCommune(const villePop_t VP[], int debut, int fin, int codeCo
     
     mesures.nbComparaisons++;
     if (VP[mid].codeCommune > codeCommune)
-        return rechercheRecParCommune(VP, debut, mid, codeCommune);
+        return rechercheRecParCommune(VP, debut, mid-1, codeCommune);
     
     else
-        return rechercheRecParCommune(VP, mid, fin, codeCommune);
+        return rechercheRecParCommune(VP, mid+1, fin, codeCommune);
 }
 
+/**
+ * @brief Recherche sequentielle de la ville avec le moins de population masculine, et de la ville avec le plus de population masucile.\nComplexite :\n\t-Pire cas : 2n-1\n\t-Meilleur cas : 1
+ * 
+ * @param VP Tableau de villes
+ * @param n Taille de VP
+ * @param pMin indice plus petite ville
+ * @param pMax indice plus grande ville
+ */
 void MinMaxPopMas(const villePop_t VP[], int n, int *pMin, int *pMax) {
-    int i, iMin = -1, iMax = -1;    
+    int i, iMin = 0, iMax = -1;
+
+    for (i = 0 ; i < n ; i++) {
+        mesures.nbComparaisons++;
+        if (VP[i].populationMasculine > VP[iMax].populationMasculine) {
+            mesures.nbAffectations += 2;
+            iMax = i;
+        }
+        mesures.nbComparaisons++;
+        if (VP[i].populationMasculine < VP[iMin].populationMasculine) {
+            mesures.nbAffectations += 2;
+            iMin = i;
+        }
+    }
+
+    mesures.nbAffectations += 2;
+    *pMin = iMin;
+    *pMax = iMax;
+
 }
 
-/* ------------------------------------------------------------------------ */
-void triSelectionParPopTotale(villePop_t VP[], int n)
-{
-    /*							à compléter									*/
+void triSelectionParPopTotale(villePop_t VP[], int n) {
+    for (int i = 0 ; i < n; i++) {
+        int min = i;
+        for (int j = i ; j < n-1 ; j++) {
+            if (VP[j].populationTotale < VP[min].populationTotale) min = j;
+        }
+        if (min != i) {
+            villePop_t aux = VP[min];
+            VP[min] = VP[i];
+            VP[i] = aux;
+        }
+    }
 }
 
 
